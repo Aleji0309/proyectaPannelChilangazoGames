@@ -2,24 +2,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 
 
-const partidasIniciales = [
-    {
-        id: 1,
-        name: "Partida 1",
-        nivel: 1,
-        fecha: "2024-06-01",
-        puntaje: 1000,
-    },
-    {
-        id: 2,
-        name: "Partida 2",
-        nivel: 2,
-        fecha: "2024-06-02",
-        puntaje: 2500,
-    }
-]
-
-
+const partidasIniciales = []
 
 const PartidasPage = () => {
     const [partidas, setPartidas] = useState(partidasIniciales);
@@ -27,8 +10,10 @@ const PartidasPage = () => {
     const handleNuevaPartida = () => {
         const nuevaPartida = {
             id: Date.now(),
-            name: "Partida " + (partidas.length + 1),
-            fecha: Date.now(),
+            jugador: "Ale",
+            juego: "Mictlán Runner",
+            nivel: "Fácil",
+            fecha: new Date().toISOString().slice(0, 10),
             puntaje: 3000,
 
         }
@@ -46,7 +31,18 @@ const PartidasPage = () => {
                     <p className="text-zinc-400">No hay partidas disponibles</p>
                 ) : <div className="partidas">
                     <p>Hay  #{partidas.length} partidas</p>
-                    {partidas.map((partida) => (<div key={partida.id}>{partida.name}</div>))}
+                    {partidas.map((partida) => (
+                        <div key={partida.id}>
+
+                            <p>Partida - {partida.id} <br /> </p>
+                            <p>Jugador - {partida.jugador} <br /> </p>
+                            <p>Juego - {partida.juego} <br /> </p>
+                            <p>Nivel - {partida.nivel} <br /> </p>
+                            <p>Fecha - {partida.fecha} <br /> </p>
+                            <p>Puntaje - {partida.puntaje} <br /> </p>
+                        </div>)
+
+                    )}
 
                 </div>
                 }
