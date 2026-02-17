@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-
+import PartidasPage from "@/components/PartidasPage"
 export default function App() {
   return (
     <div className="min-h-screen relative bg-zinc-950 text-zinc-100">
@@ -20,7 +20,7 @@ export default function App() {
             <p className="text-zinc-300">Presenta</p>
           </div>
 
-          <Button>Nueva Partida</Button>
+          <PartidasPage></PartidasPage>
         </div>
       </div>
     </div>
