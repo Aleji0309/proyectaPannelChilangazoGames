@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogHeader } from "./ui/dialog";
+
 
 
 const partidasIniciales = []
 
 const PartidasPage = () => {
     const [partidas, setPartidas] = useState(partidasIniciales);
+    const [open, setOpen] = useState(false);
+
+    const openModal = () => {
+        setOpen(true);
+    }
+
 
     const handleNuevaPartida = () => {
         const nuevaPartida = {
@@ -46,7 +54,17 @@ const PartidasPage = () => {
 
                 </div>
                 }
-                <Button onClick={handleNuevaPartida} >Agregar Partida</Button>
+                <Button onClick={openModal} >Nueva Partida</Button>
+                <br />
+                <Button onClick={handleNuevaPartida} >PARTIDA FAKE</Button>
+                <br />
+                <Dialog open={open} onOpenChange={setOpen} >
+                    <DialogContent>
+                        <DialogHeader>
+                            PRUEBA DE MODAL
+                        </DialogHeader>
+                    </DialogContent>
+                </Dialog>
             </div>
         </div>
     );
