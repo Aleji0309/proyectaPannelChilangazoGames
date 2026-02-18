@@ -1,20 +1,33 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogHeader } from "./ui/dialog";
-
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
+import { Label } from "./ui/Label";
+import { Input } from "./ui/Input";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/Select";
 
 
 const partidasIniciales = []
 
 const PartidasPage = () => {
+
+    // declaracion de constantes
     const [partidas, setPartidas] = useState(partidasIniciales);
     const [open, setOpen] = useState(false);
 
+    //formulario para una nueva partida
+    const [form, setForm] = useState({
+        jugador: "",
+        juego: "",
+        nivel: "Fácil",
+    });
+
+
+    //funcion para abrir el modal de una nueva partida
     const openModal = () => {
         setOpen(true);
     }
 
-
+    // funcion para agregar una nueva partida
     const handleNuevaPartida = () => {
         const nuevaPartida = {
             id: Date.now(),
@@ -29,6 +42,8 @@ const PartidasPage = () => {
         setPartidas(prev => [...prev, nuevaPartida]);
     }
 
+    console.log(form.juego);
+    console.log(form.nivel);
 
     return (
         <div className="partidas-container mt-8">
@@ -61,8 +76,50 @@ const PartidasPage = () => {
                 <Dialog open={open} onOpenChange={setOpen} >
                     <DialogContent>
                         <DialogHeader>
-                            PRUEBA DE MODAL
+                            <DialogTitle>Nueva Partida</DialogTitle>
+                            <DialogDescription>Descripción de la partida</DialogDescription>
                         </DialogHeader>
+
+                        {/* INPUT Jugador */}
+                        <div className="grid">
+                            <Label htmlFor="jugador">Jugador</Label>
+                            <Input
+                                id="jugador"
+                                type="text"
+                                placeholder="Jugador"
+                                value={form.value}
+                            ></Input>
+                        </div>
+                        {/* INPUT JUEGO */}
+                        <div className="grid gap-6">
+                            <Label htmlFor="juego" >Juego</Label>
+                            <Input
+                                id="juego"
+                                type="text"
+                                placeholder="Mictlán Runner"
+                                value={form.juego}
+                                onChange={e => setForm((prev) => ({ ...prev, juego: e.target.value }))}
+                            />
+                        </div>
+
+                        {/* INPUT Nivel */}
+                        <div className="grid gap-6">
+                            <Label htmlFor="nivel">Nivel</Label>
+                            <Select id="nivel" value={form.nivel} onValueChange={(nivelSeleccionado) => setForm((prev) => ({ ...prev, nivel: nivelSeleccionado }))}  >
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Nivel" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectItem value="Fácil">Fácil</SelectItem>
+                                        <SelectItem value="Medio">Medio</SelectItem>
+                                        <SelectItem value="Difícil">Difícil</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+
+                        </div>
+
                     </DialogContent>
                 </Dialog>
             </div>
