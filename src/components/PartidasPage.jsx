@@ -16,9 +16,12 @@ const PartidasPage = () => {
 
     //formulario para una nueva partida
     const [form, setForm] = useState({
+        id: Date.now(),
         jugador: "",
         juego: "",
         nivel: "Fácil",
+        fecha: new Date().toISOString().slice(0, 10),
+        puntaje: "",
     });
 
 
@@ -42,8 +45,13 @@ const PartidasPage = () => {
         setPartidas(prev => [...prev, nuevaPartida]);
     }
 
+    console.log(form.jugador);
     console.log(form.juego);
     console.log(form.nivel);
+    console.log(form.fecha);
+    console.log(form.puntaje);
+    console.log(typeof (form.puntaje));
+
 
     return (
         <div className="partidas-container mt-8">
@@ -88,6 +96,7 @@ const PartidasPage = () => {
                                 type="text"
                                 placeholder="Jugador"
                                 value={form.value}
+                                onChange={e => setForm((prev) => ({ ...prev, jugador: e.target.value }))}
                             ></Input>
                         </div>
                         {/* INPUT JUEGO */}
@@ -106,7 +115,7 @@ const PartidasPage = () => {
                         <div className="grid gap-6">
                             <Label htmlFor="nivel">Nivel</Label>
                             <Select id="nivel" value={form.nivel} onValueChange={(nivelSeleccionado) => setForm((prev) => ({ ...prev, nivel: nivelSeleccionado }))}  >
-                                <SelectTrigger className="w-[180px]">
+                                <SelectTrigger>
                                     <SelectValue placeholder="Nivel" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -117,7 +126,26 @@ const PartidasPage = () => {
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
+                        </div>
 
+                        {/* INPUT Fecha */}
+                        <div className="grid gap-6">
+                            <Label htmlFor="fecha">Fecha</Label>
+                            <Input
+                                id="fecha"
+                                type="date"
+                                value={form.fecha}
+                                placeholder="Fecha de la Partida"
+                                onChange={e => setForm((prev) => ({ ...prev, fecha: e.target.value }))}
+                            >
+                            </Input>
+                        </div>
+
+                        {/* INPUT Puntaje */}
+                        <div className="grid gap-4">
+                            <Label htmlFor="Puntaje" >Puntaje</Label>
+                            <Input id="Puntaje" placeholder="ej. 3000" value={form.puntaje} onChange={e => setForm((prev) => ({ ...prev, puntaje: Number(e.target.value) }))}  >
+                            </Input>
                         </div>
 
                     </DialogContent>
