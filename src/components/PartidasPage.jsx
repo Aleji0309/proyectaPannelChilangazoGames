@@ -45,6 +45,12 @@ const PartidasPage = () => {
         setPartidas(prev => [...prev, nuevaPartida]);
     }
 
+    //formulario para guardar una partida
+    const guardarPartida = () => {
+        console.log("Click guardar partida");
+        setOpen(false);
+    }
+
     console.log(form.jugador);
     console.log(form.juego);
     console.log(form.nivel);
@@ -89,7 +95,7 @@ const PartidasPage = () => {
                         </DialogHeader>
 
                         {/* INPUT Jugador */}
-                        <div className="grid">
+                        <div className="grid gap-4">
                             <Label htmlFor="jugador">Jugador</Label>
                             <Input
                                 id="jugador"
@@ -146,6 +152,14 @@ const PartidasPage = () => {
                             <Label htmlFor="Puntaje" >Puntaje</Label>
                             <Input id="Puntaje" placeholder="ej. 3000" value={form.puntaje} onChange={e => setForm((prev) => ({ ...prev, puntaje: Number(e.target.value) }))}  >
                             </Input>
+                        </div>
+
+                        {/* Botón  Guardar Partida */}
+                        <div className="flex gap-4 ">
+
+                            <Button className="bg-green-500 w-[200px]" onClick={guardarPartida}>Guardar</Button>
+                            <Button className="bg-red-500 w-[200px]">Cancelar</Button>
+
                         </div>
 
                     </DialogContent>
