@@ -40,10 +40,20 @@ const PartidasPage = () => {
     }
 
 
+    // funcion para generar id random
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    const randomNumber = getRandomInt(1, 1000)
+
+
     //funcion para guardar una partida
     const guardarPartida = () => {
         const nuevaPartida = {
-            id: Date.now(),
+            id: randomNumber,
             jugador: form.jugador,
             juego: form.juego,
             nivel: form.nivel,
