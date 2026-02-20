@@ -66,17 +66,15 @@ const PartidasPage = () => {
 
     return (
         <div className="w-full oerflow-x-auto m-0">
-            <div className="partidas-container bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl p-6 h-[800px] w-[1200px] mx-auto max-w-none mt-20">
-                <div className="header bg-green-500 ">
-                    <h1>Partidas Page</h1>
-                    <h2 className="text-xl font-bold">Partida</h2>
-                    <p>Hay  #{partidas.length} partidas</p>
-                    <Button onClick={openModal} >Nueva Partida</Button>
+            <div className="partidas-container bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl p-6  w-[1200px] mx-auto max-w-none mt-20">
+                <div className="header">
+                    <h1 className="text-4xl mb-8 font-bold text-yellow-400" >Chilangazo League</h1>
 
+                    <Button onClick={openModal} className="mb-8 text-2xl bg-red-500 uppercase p-8" >Nueva Partida</Button>
                 </div>
 
                 {partidas.length === 0 ? (
-                    <p className="text-zinc-400">No hay partidas disponibles</p>
+                    <p className="text-zinc-400 text-2xl">No hay partidas disponibles</p>
                 ) : <div className="mt-4 overflow-auto max-h-[420px] pr-2">
 
                     <header className="grid grid-cols-[100px_160px_1fr_120px_140px_100px] gap-8 text-lg text-zinc-400 font-semibold px-4 py-2 border-b border-white/10 sticky top-0 z-10 bg-black/40 backdrop-blur-md mb-4 uppercase" >
