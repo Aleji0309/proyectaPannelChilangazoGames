@@ -10,19 +10,21 @@ const partidasIniciales = []
 
 const PartidasPage = () => {
 
-    // declaracion de constantes
+    // declaracion de estados
     const [partidas, setPartidas] = useState(partidasIniciales);
     const [open, setOpen] = useState(false);
-
-    //formulario para una nueva partida
-    const [form, setForm] = useState({
-        id: Date.now(),
+    const formVacio = {
         jugador: "",
         juego: "",
         nivel: "Fácil",
         fecha: new Date().toISOString().slice(0, 10),
-        puntaje: "",
-    });
+        puntaje: 0,
+    };
+
+    //formulario para una nueva partida
+    const [form, setForm] = useState(formVacio);
+
+    const jugadorVacio = form.jugador.trim() === "";
 
 
     //funcion para abrir el modal de una nueva partida
@@ -30,33 +32,36 @@ const PartidasPage = () => {
         setOpen(true);
     }
 
-    // funcion para agregar una nueva partida
-    const handleNuevaPartida = () => {
-        const nuevaPartida = {
-            id: Date.now(),
-            jugador: "Ale",
-            juego: "Mictlán Runner",
-            nivel: "Fácil",
-            fecha: new Date().toISOString().slice(0, 10),
-            puntaje: 3000,
 
-        }
-
-        setPartidas(prev => [...prev, nuevaPartida]);
+    // funcion para limpiar el formulario
+    const limpiarFormulario = () => {
+        console.log("formularior limpi");
+        setForm(formVacio);
     }
 
-    //formulario para guardar una partida
+
+    //funcion para guardar una partida
     const guardarPartida = () => {
-        console.log("Click guardar partida");
+        const nuevaPartida = {
+            id: Date.now(),
+            jugador: form.jugador,
+            juego: form.juego,
+            nivel: form.nivel,
+            fecha: form.fecha,
+            puntaje: form.puntaje,
+
+        }
+        setPartidas(prev => [...prev, nuevaPartida]);
+        limpiarFormulario();
         setOpen(false);
     }
 
-    console.log(form.jugador);
-    console.log(form.juego);
-    console.log(form.nivel);
-    console.log(form.fecha);
-    console.log(form.puntaje);
-    console.log(typeof (form.puntaje));
+
+    //funcion para cancelar una partida
+    const cancelarPartida = () => {
+        limpiarFormulario();
+        setOpen(false);
+    }
 
 
     return (
@@ -85,7 +90,7 @@ const PartidasPage = () => {
                 }
                 <Button onClick={openModal} >Nueva Partida</Button>
                 <br />
-                <Button onClick={handleNuevaPartida} >PARTIDA FAKE</Button>
+
                 <br />
                 <Dialog open={open} onOpenChange={setOpen} >
                     <DialogContent>
@@ -101,9 +106,10 @@ const PartidasPage = () => {
                                 id="jugador"
                                 type="text"
                                 placeholder="Jugador"
-                                value={form.value}
+                                value={form.jugador}
                                 onChange={e => setForm((prev) => ({ ...prev, jugador: e.target.value }))}
                             ></Input>
+
                         </div>
                         {/* INPUT JUEGO */}
                         <div className="grid gap-6">
@@ -149,19 +155,16 @@ const PartidasPage = () => {
 
                         {/* INPUT Puntaje */}
                         <div className="grid gap-4">
-                            <Label htmlFor="Puntaje" >Puntaje</Label>
-                            <Input id="Puntaje" placeholder="ej. 3000" value={form.puntaje} onChange={e => setForm((prev) => ({ ...prev, puntaje: Number(e.target.value) }))}  >
+                            <Label htmlFor="puntaje" >Puntaje</Label>
+                            <Input id="puntaje" placeholder="ej. 3000" value={form.puntaje} onChange={e => setForm((prev) => ({ ...prev, puntaje: Number(e.target.value) }))}  >
                             </Input>
                         </div>
 
                         {/* Botón  Guardar Partida */}
                         <div className="flex gap-4 ">
-
-                            <Button className="bg-green-500 w-[200px]" onClick={guardarPartida}>Guardar</Button>
-                            <Button className="bg-red-500 w-[200px]">Cancelar</Button>
-
+                            <Button className="bg-green-500 w-[200px]" onClick={guardarPartida} disabled={jugadorVacio} >Guardar</Button>
+                            <Button className="bg-red-500 w-[200px]" onClick={cancelarPartida} >Cancelar</Button>
                         </div>
-
                     </DialogContent>
                 </Dialog>
             </div>
