@@ -65,31 +65,44 @@ const PartidasPage = () => {
 
 
     return (
-        <div className="partidas-container mt-8">
-            <h1>Partidas Page</h1>
-            <div className="partidas-card bg-zinc-800 p-4 rounded-lg shadow-md">
-                <h2 className="text-xl font-bold">Partida</h2>
-                {partidas.length === 0 ? (
-                    <p className="text-zinc-400">No hay partidas disponibles</p>
-                ) : <div className="partidas">
+        <div className="w-full oerflow-x-auto m-0">
+            <div className="partidas-container bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl p-6 h-[800px] w-[1200px] mx-auto max-w-none mt-20">
+                <div className="header bg-green-500 ">
+                    <h1>Partidas Page</h1>
+                    <h2 className="text-xl font-bold">Partida</h2>
                     <p>Hay  #{partidas.length} partidas</p>
-                    {partidas.map((partida) => (
-                        <div key={partida.id}>
-
-                            <p>Partida - {partida.id} <br /> </p>
-                            <p>Jugador - {partida.jugador} <br /> </p>
-                            <p>Juego - {partida.juego} <br /> </p>
-                            <p>Nivel - {partida.nivel} <br /> </p>
-                            <p>Fecha - {partida.fecha} <br /> </p>
-                            <p>Puntaje - {partida.puntaje} <br /> </p>
-                        </div>)
-
-                    )}
+                    <Button onClick={openModal} >Nueva Partida</Button>
 
                 </div>
+
+                {partidas.length === 0 ? (
+                    <p className="text-zinc-400">No hay partidas disponibles</p>
+                ) : <div className="mt-4 overflow-auto max-h-[420px] pr-2">
+
+                    <header className="grid grid-cols-[100px_160px_1fr_120px_140px_100px] gap-8 text-lg text-zinc-400 font-semibold px-4 py-2 border-b border-white/10 sticky top-0 z-10 bg-black/40 backdrop-blur-md mb-4 uppercase" >
+                        <h2>Partida</h2>
+                        <h2>Jugador</h2>
+                        <h2>Juego</h2>
+                        <h2>Nivel</h2>
+                        <h2>Fecha</h2>
+                        <h2>Puntaje</h2>
+                    </header>
+
+                    {partidas.map((partida) => (
+                        <div key={partida.id} className="grid grid-cols-[100px_160px_1fr_120px_140px_100px] gap-8 items-center bg-white/5 border border-white/10  px-4 py-2 hover:bg-white/10 transition cursor-pointer mb-4">
+                            <p>{partida.id}</p>
+                            <p>{partida.jugador}</p>
+                            <p>{partida.juego}</p>
+                            <p>{partida.nivel}</p>
+                            <p>{partida.fecha}</p>
+                            <p>{partida.puntaje}</p>
+                        </div>
+                    ))}
+                </div>
+
+
                 }
-                <Button onClick={openModal} >Nueva Partida</Button>
-                <br />
+
 
                 <br />
                 <Dialog open={open} onOpenChange={setOpen} >
@@ -167,6 +180,7 @@ const PartidasPage = () => {
                         </div>
                     </DialogContent>
                 </Dialog>
+
             </div>
         </div>
     );
