@@ -1,0 +1,29 @@
+{
+  "name": "chilangazo-games",
+  "version": "1.0.0",
+  "description": "Backend de Chilangazo Games encargado de gestionar usuarios, partidas y persistencia de datos para los videojuegos",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aleji0309/proyectaPannelChilangazoGames.git"
+  },
+  "author": "Ale Jimenez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aleji0309/proyectaPannelChilangazoGames/issues"
+  },
+  "homepage": "https://github.com/Aleji0309/proyectaPannelChilangazoGames#readme",
+  "dependencies": {
+    "@prisma/client": "^7.4.1",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "prisma": "^7.4.1"
+  }
+}
