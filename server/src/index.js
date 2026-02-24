@@ -28,7 +28,7 @@ dbConfig.query('SELECT NOW()')
 //     res.send('¡Hola Mundo!');
 // });
 
-app.use('/api/partidas', partidasRoutes);
+app.use(express.json());
 app.use('/api/partidas', partidasRoutes);
 
 // 5. Escuchar en el puerto
