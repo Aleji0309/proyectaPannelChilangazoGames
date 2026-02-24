@@ -1,18 +1,18 @@
-// 1. Importar el módulo express
 const express = require('express');
-const partidasRoutes = require('../routes/partidas.routes');
+const cors = require("cors");
 const dbConfig = require('./db');
+const partidasRoutes = require('../routes/partidas.routes');
 
-
-// 2. Inicializar la aplicación express
 const app = express();
 
-// 3. Definir un puerto
-const PORT = 3000;
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+}));
 
-// 4. Crear una ruta básica (opcional, para probar)
+app.use(express.json());
 
-// PROBAR CONEXIÓN A LA DB
 dbConfig.query('SELECT NOW()')
     .then(result => {
         console.log("✅ DB conectada");
@@ -22,20 +22,9 @@ dbConfig.query('SELECT NOW()')
         console.error("❌ Error conectando a la DB:", err.message);
     });
 
-
-// Ruta básica
-// app.get('/', (req, res) => {
-//     res.send('¡Hola Mundo!');
-// });
-
-app.use(express.json());
 app.use('/api/partidas', partidasRoutes);
 
-// 5. Escuchar en el puerto
+const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-
-
-
-

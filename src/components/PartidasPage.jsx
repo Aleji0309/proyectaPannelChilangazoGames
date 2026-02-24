@@ -1,16 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
 import PartidaFormModal from "./PartidaFormModal";
 import PartidasContainer from "./PartidasTable";
 
 
-const partidasIniciales = []
 
 const PartidasPage = () => {
 
     // declaracion de estados
-    const [partidas, setPartidas] = useState(partidasIniciales);
+    const [partidas, setPartidas] = useState([]);
     const [open, setOpen] = useState(false);
     const [nextId, setNextId] = useState(1);
     const formVacio = {
@@ -20,6 +19,19 @@ const PartidasPage = () => {
         fecha: new Date().toISOString().slice(0, 10),
         puntaje: 0,
     };
+
+    // Funcion para hacer FETCH  de GET al API REST del backend
+    useEffect(() => {
+        fetch("http://localhost:3000/api/partidas")
+            .then((res) => res.json())
+            .then((result) => {
+                setPartidas(result);
+                console.log("Success ", result);
+            })
+            .catch((error) => {
+                console.log("Error", error);
+            });
+    }, []);
 
     //formulario para una nueva partida
     const [form, setForm] = useState(formVacio);
