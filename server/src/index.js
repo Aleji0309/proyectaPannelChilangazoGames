@@ -1,6 +1,8 @@
 // 1. Importar el módulo express
 const express = require('express');
+const partidasRoutes = require('../routes/partidas.routes');
 const dbConfig = require('./db');
+
 
 // 2. Inicializar la aplicación express
 const app = express();
@@ -22,12 +24,18 @@ dbConfig.query('SELECT NOW()')
 
 
 // Ruta básica
-app.get('/', (req, res) => {
-    res.send('¡Hola Mundo!');
-});
+// app.get('/', (req, res) => {
+//     res.send('¡Hola Mundo!');
+// });
+
+app.use('/api/partidas', partidasRoutes);
+app.use('/api/partidas', partidasRoutes);
 
 // 5. Escuchar en el puerto
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
+
+
 
