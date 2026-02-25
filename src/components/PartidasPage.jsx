@@ -77,6 +77,11 @@ const PartidasPage = () => {
         }
     };
 
+    // funcion para elminar una partida
+    const eliminarPartida = () => {
+        console.log('Eliminaste la partida');
+    }
+
     //funcion para cancelar una partida
     const cancelarPartida = () => {
         limpiarFormulario();
@@ -90,8 +95,7 @@ const PartidasPage = () => {
                 <div className="header flex  gap-8">
                     <h1 className="text-4xl mb-8 font-bold text-yellow-400" >Chilangazo League</h1>
                     <Button onClick={openModal} className="mb-8 text-2xl bg-green-500 uppercase p-6" >Nueva Partida</Button>
-                    <Button className="mb-8 text-2xl bg-red-500 uppercase p-6">Eliminar Partida</Button>
-                    <Button className="mb-8 text-2xl bg-yellow-500 uppercase p-6">Editar Partida</Button>
+
                 </div>
 
                 {/* FORMULARIO CONTENEDOR */}
@@ -112,6 +116,7 @@ const PartidasPage = () => {
                     {/* PARTIDAS CONTENEDOR */}
                     <PartidasContainer
                         partidas={partidas}
+                        onDelete={eliminarPartida}
                     />
                 </div>
 
