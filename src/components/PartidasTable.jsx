@@ -33,7 +33,7 @@ const PartidasContainer = ({
                         <p>{partida.puntaje}</p>
                         <div className="flex gap-4" >
                             <Button className="bg-blue-500">Editar</Button>
-                            <Button className="bg-red-500" onClick={onDelete} >Eliminar</Button>
+                            <Button className="bg-red-500" onClick={() => onDelete(partida.id)} >Eliminar</Button>
                         </div>
                     </div>
                 ))

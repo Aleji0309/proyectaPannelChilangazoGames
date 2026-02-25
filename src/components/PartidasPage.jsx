@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 
 import PartidaFormModal from "./PartidaFormModal";
 import PartidasContainer from "./PartidasTable";
-import { crearPartidas, obtenerPartidas } from "server/src/api/partidasApi";
+import { crearPartidas, obtenerPartidas, eliminarPartidaSeleccionada } from "server/src/api/partidasApi";
 
 
 
@@ -49,7 +49,6 @@ const PartidasPage = () => {
 
     // funcion para limpiar el formulario
     const limpiarFormulario = () => {
-        console.log("formularior limpi");
         setForm(formVacio);
     }
 
@@ -78,9 +77,17 @@ const PartidasPage = () => {
     };
 
     // funcion para elminar una partida
-    const eliminarPartida = () => {
-        console.log('Eliminaste la partida');
-    }
+    // estado para eliminar una partida 
+    const eliminarPartida = async (id) => {
+        try {
+            await eliminarPartidaSeleccionada(id);
+
+            setPartidas((prev) => prev.filter((p) => p.id !== id));
+        } catch (error) {
+            console.error("Error eliminando partida:", error);
+        }
+    };
+
 
     //funcion para cancelar una partida
     const cancelarPartida = () => {

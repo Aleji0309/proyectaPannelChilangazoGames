@@ -23,7 +23,19 @@ export async function crearPartidas(payload) {
         throw new Error(`Error HTTP: ${response.status}`);
     }
 
-    const data = await response.json;
+    const data = await response.json();
     return data;
 }
+
+export const eliminarPartidaSeleccionada = async (id) => {
+    const url = `http://localhost:3000/api/partidas/${id}`;
+
+    const response = await fetch(url, { method: "DELETE" });
+
+    if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+    }
+
+    return true;
+};
 
