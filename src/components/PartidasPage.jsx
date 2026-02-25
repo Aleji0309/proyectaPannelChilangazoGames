@@ -3,6 +3,7 @@ import { Button } from "./ui/button";
 
 import PartidaFormModal from "./PartidaFormModal";
 import PartidasContainer from "./PartidasTable";
+import { crearPartidas, obtenerPartidas } from "server/src/api/partidasApi";
 
 
 
@@ -11,7 +12,6 @@ const PartidasPage = () => {
     // declaracion de estados
     const [partidas, setPartidas] = useState([]);
     const [open, setOpen] = useState(false);
-    const [nextId, setNextId] = useState(1);
     const formVacio = {
         jugador: "",
         juego: "",
@@ -20,22 +20,25 @@ const PartidasPage = () => {
         puntaje: 0,
     };
 
-    // Funcion para hacer FETCH  de GET al API REST del backend
+
+    // estado para obtener partidas
     useEffect(() => {
-        fetch("http://localhost:3000/api/partidas")
-            .then((res) => res.json())
-            .then((result) => {
-                setPartidas(result);
-                console.log("Success ", result);
-            })
-            .catch((error) => {
-                console.log("Error", error);
-            });
+        const cargar = async () => {
+            try {
+                const data = await obtenerPartidas();
+                setPartidas(data);
+            } catch (error) {
+                console.error("Error cargando partidas:", error);
+            }
+        };
+
+        cargar();
     }, []);
+
+
 
     //formulario para una nueva partida
     const [form, setForm] = useState(formVacio);
-
     const jugadorVacio = form.jugador.trim() === "";
 
 
@@ -50,32 +53,28 @@ const PartidasPage = () => {
         setForm(formVacio);
     }
 
-    // funcion FECTH POST API REST
-    async function fetchPost() {
-        const payload = {
-            jugador: form.jugador,
-            juego: form.juego,
-            nivel: form.nivel,
-            fecha: form.fecha,
-            puntaje: form.puntaje,
-        };
-
-        const response = await fetch('http://localhost:3000/api/partidas', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-
-        setPartidas(prev => [...prev, data]);
-    }
 
     //funcion para guardar una partida
+    //estado para crear partidas
     const guardarPartida = async () => {
-        await fetchPost();
-        limpiarFormulario();
-        setOpen(false);
+        try {
+            const payload = {
+                jugador: form.jugador,
+                juego: form.juego,
+                nivel: form.nivel,
+                fecha: form.fecha,
+                puntaje: form.puntaje,
+            };
+
+            const nueva = await crearPartidas(payload);
+            setPartidas(prev => [...prev, nueva]);
+
+            limpiarFormulario();
+            setOpen(false);
+
+        } catch (error) {
+            console.error("Error creando partida:", error);
+        }
     };
 
     //funcion para cancelar una partida
@@ -88,10 +87,11 @@ const PartidasPage = () => {
     return (
         <div className="w-full overflow-x-auto m-0">
             <div className="partidas-container bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl p-6  w-[1200px] mx-auto max-w-none mt-20">
-                <div className="header">
+                <div className="header flex  gap-8">
                     <h1 className="text-4xl mb-8 font-bold text-yellow-400" >Chilangazo League</h1>
-
-                    <Button onClick={openModal} className="mb-8 text-2xl bg-red-500 uppercase p-8" >Nueva Partida</Button>
+                    <Button onClick={openModal} className="mb-8 text-2xl bg-green-500 uppercase p-6" >Nueva Partida</Button>
+                    <Button className="mb-8 text-2xl bg-red-500 uppercase p-6">Eliminar Partida</Button>
+                    <Button className="mb-8 text-2xl bg-yellow-500 uppercase p-6">Editar Partida</Button>
                 </div>
 
                 {/* FORMULARIO CONTENEDOR */}
@@ -119,7 +119,7 @@ const PartidasPage = () => {
             </div>
         </div>
     );
-}
 
+}
 
 export default PartidasPage;

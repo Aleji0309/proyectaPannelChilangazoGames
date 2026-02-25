@@ -12,6 +12,8 @@ const PartidasContainer = ({ partidas
                 <h2>Nivel</h2>
                 <h2>Fecha</h2>
                 <h2>Puntaje</h2>
+
+
             </header>
 
             {/* CONTENEDOR PARTIDA */}
