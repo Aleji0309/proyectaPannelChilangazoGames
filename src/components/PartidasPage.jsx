@@ -50,22 +50,33 @@ const PartidasPage = () => {
         setForm(formVacio);
     }
 
-    //funcion para guardar una partida
-    const guardarPartida = () => {
-        const nuevaPartida = {
-            id: nextId,
+    // funcion FECTH POST API REST
+    async function fetchPost() {
+        const payload = {
             jugador: form.jugador,
             juego: form.juego,
             nivel: form.nivel,
             fecha: form.fecha,
             puntaje: form.puntaje,
+        };
 
-        }
-        setPartidas(prev => [...prev, nuevaPartida]);
+        const response = await fetch('http://localhost:3000/api/partidas', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        setPartidas(prev => [...prev, data]);
+    }
+
+    //funcion para guardar una partida
+    const guardarPartida = async () => {
+        await fetchPost();
         limpiarFormulario();
         setOpen(false);
-        setNextId(prev => prev + 1);
-    }
+    };
 
     //funcion para cancelar una partida
     const cancelarPartida = () => {
