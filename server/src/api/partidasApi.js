@@ -27,15 +27,33 @@ export async function crearPartidas(payload) {
     return data;
 }
 
-export const eliminarPartidaSeleccionada = async (id) => {
+export async function eliminarPartidaSeleccionada(id) {
     const url = `http://localhost:3000/api/partidas/${id}`;
 
-    const response = await fetch(url, { method: "DELETE" });
+    const response = await fetch(url, {
+        method: "DELETE",
+    });
 
     if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
     }
 
-    return true;
-};
+    return await response.json();
+}
 
+export async function editarPartidaSeleccionada(id, payload) {
+    const url = `http://localhost:3000/api/partidas/${id}`;
+
+    const res = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+        const msg = await res.text().catch(() => "");
+        throw new Error(`Error HTTP: ${res.status} ${msg}`);
+    }
+
+    return await res.json();
+}

@@ -3,7 +3,7 @@ import { Button } from "./ui/button";
 
 import PartidaFormModal from "./PartidaFormModal";
 import PartidasContainer from "./PartidasTable";
-import { crearPartidas, obtenerPartidas, eliminarPartidaSeleccionada } from "server/src/api/partidasApi";
+import { crearPartidas, obtenerPartidas, eliminarPartidaSeleccionada, editarPartidaSeleccionada } from "server/src/api/partidasApi";
 
 
 
@@ -12,6 +12,7 @@ const PartidasPage = () => {
     // declaracion de estados
     const [partidas, setPartidas] = useState([]);
     const [open, setOpen] = useState(false);
+    const [editingId, setEditingId] = useState(null);
     const formVacio = {
         jugador: "",
         juego: "",
@@ -50,31 +51,8 @@ const PartidasPage = () => {
     // funcion para limpiar el formulario
     const limpiarFormulario = () => {
         setForm(formVacio);
+        setEditingId(null);
     }
-
-
-    //funcion para guardar una partida
-    //estado para crear partidas
-    const guardarPartida = async () => {
-        try {
-            const payload = {
-                jugador: form.jugador,
-                juego: form.juego,
-                nivel: form.nivel,
-                fecha: form.fecha,
-                puntaje: form.puntaje,
-            };
-
-            const nueva = await crearPartidas(payload);
-            setPartidas(prev => [...prev, nueva]);
-
-            limpiarFormulario();
-            setOpen(false);
-
-        } catch (error) {
-            console.error("Error creando partida:", error);
-        }
-    };
 
     // funcion para elminar una partida
     // estado para eliminar una partida 
@@ -85,6 +63,55 @@ const PartidasPage = () => {
             setPartidas((prev) => prev.filter((p) => p.id !== id));
         } catch (error) {
             console.error("Error eliminando partida:", error);
+        }
+    };
+
+    // funcion que abre modal para editar partida
+    const abrirModalEdicion = (partida) => {
+        setEditingId(partida.id);
+
+        setForm({
+            jugador: partida.jugador ?? "",
+            juego: partida.juego ?? "",
+            nivel: partida.nivel ?? "Fácil",
+            fecha: partida.fecha ?? new Date().toISOString().slice(0, 10),
+            puntaje: partida.puntaje ?? 0,
+        });
+
+        openModal();
+    };
+
+    // funciongGuardar: si hay editingId -> PUT, si no -> POST
+    const guardarPartida = async () => {
+        try {
+            const payload = {
+                jugador: form.jugador,
+                juego: form.juego,
+                nivel: form.nivel,
+                fecha: form.fecha,
+                puntaje: form.puntaje,
+            };
+
+            let resultado;
+
+            if (editingId !== null) {
+                // EDITAR
+                resultado = await editarPartidaSeleccionada(editingId, payload);
+
+                setPartidas((prev) =>
+                    prev.map((p) => (p.id === editingId ? resultado : p))
+                );
+            } else {
+                // CREAR
+                resultado = await crearPartidas(payload);
+
+                setPartidas((prev) => [...prev, resultado]);
+            }
+
+            limpiarFormulario();
+            setOpen(false);
+        } catch (error) {
+            console.error("Error guardando partida:", error);
         }
     };
 
@@ -124,6 +151,7 @@ const PartidasPage = () => {
                     <PartidasContainer
                         partidas={partidas}
                         onDelete={eliminarPartida}
+                        onEditar={abrirModalEdicion}
                     />
                 </div>
 
