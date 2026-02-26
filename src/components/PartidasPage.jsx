@@ -18,7 +18,7 @@ const PartidasPage = () => {
         juego: "",
         nivel: "Fácil",
         fecha: new Date().toISOString().slice(0, 10),
-        puntaje: 0,
+        puntaje: "",
     };
 
 
@@ -89,7 +89,7 @@ const PartidasPage = () => {
                 juego: form.juego,
                 nivel: form.nivel,
                 fecha: form.fecha,
-                puntaje: form.puntaje,
+                puntaje: Number(form.puntaje) || 0,
             };
 
             let resultado;

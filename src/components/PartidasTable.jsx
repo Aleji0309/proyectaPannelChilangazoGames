@@ -29,7 +29,7 @@ const PartidasContainer = ({
                         <p>{partida.jugador}</p>
                         <p>{partida.juego}</p>
                         <p>{partida.nivel}</p>
-                        <p>{partida.fecha}</p>
+                        <p>{partida.fecha.split("T")[0]}</p>
                         <p>{partida.puntaje}</p>
                         <div className="flex gap-4" >
                             <Button className="bg-blue-500" onClick={() => onEditar(partida)}>Editar</Button>

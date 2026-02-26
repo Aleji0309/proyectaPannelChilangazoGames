@@ -81,7 +81,7 @@ const PartidaFormModal = ({
                 {/* INPUT Puntaje */}
                 <div className="grid gap-4">
                     <Label htmlFor="puntaje" >Puntaje</Label>
-                    <Input id="puntaje" placeholder="ej. 3000" value={form.puntaje} onChange={e => setForm((prev) => ({ ...prev, puntaje: Number(e.target.value) }))}  >
+                    <Input id="puntaje" placeholder="ej. 3000" value={form.puntaje} onChange={e => setForm((prev) => ({ ...prev, puntaje: e.target.value }))}  >
                     </Input>
                 </div>
 
